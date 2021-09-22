@@ -20,11 +20,23 @@ NUMBER = "9998"
 PROJECT_ROOT = path.abspath(path.dirname(__file__))
 DRIVER_BIN = path.join(PROJECT_ROOT, 'chromedriver')
 
-while True:
-    try:
-        browser = webdriver.Chrome(executable_path = DRIVER_BIN)
-        browser.get('https://reserve.dlt.go.th/reserve/s.php')
+browser = webdriver.Chrome(executable_path = DRIVER_BIN)
+browser.get('https://reserve.dlt.go.th/reserve/s.php')
+j = 0
 
+while j < 60:
+    if j > 0:
+        try:
+            browser.switch_to.alert.accept()
+            break
+        except:
+            browser.execute_script('window.open()')
+            browser.switch_to.window(browser.window_handles[j])
+            browser.get('https://reserve.dlt.go.th/reserve/s.php')
+        
+    j = j + 1
+
+    try:
         browser.find_element_by_xpath('//input[@type="submit"]').click()
 
         browser.find_element_by_xpath('//input[@value="    รถกระบะ 4 ประตู / รถเก๋ง   "]').click()
@@ -85,10 +97,6 @@ while True:
         sleep(23)
         browser.find_element_by_xpath('//input[@type="submit"]').click()
         browser.switch_to.alert.accept()
+        continue
     except:
         pass
-    else:
-        try:
-            browser.find_element_by_xpath('//p[@value="Service not avilable"]')
-        except:
-            break
