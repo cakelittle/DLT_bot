@@ -24,10 +24,10 @@ browser = webdriver.Chrome(executable_path = DRIVER_BIN)
 browser.get('https://reserve.dlt.go.th/reserve/s.php')
 j = 0
 
-while j < 60:
+while j < 200:
     if j > 0:
         try:
-            browser.switch_to.alert.accept()
+            browser.switch_to.alert
             break
         except:
             browser.execute_script('window.open()')
